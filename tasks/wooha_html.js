@@ -139,7 +139,7 @@ module.exports = function (grunt) {
         return content;
     }
 
-    grunt.registerMultiTask('htmlbuild', "Grunt HTML Builder", function () {
+    grunt.registerMultiTask('wooha_html', "Grunt HTML Builder", function () {
         var params = this.options({
             beautify: true,
             data: {
