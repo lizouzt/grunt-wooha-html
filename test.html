@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="yes" name="apple-touch-fullscreen"/>
+    <meta content="telephone=no,email=no" name="format-detection"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"/>
+    <title>test html</title>
+    <link rel="stylesheet" type="text/css" href="./../../build/p/order-return-ms/index.css">
+</head>
+<body>
+<div id="j-content" class="content">
+
+</div>
+</body>
+<script type="text/javascript" src="./../../deps/requirejs/require.js"></script>
+<!-- <script src="./../../build/p/order-return-ms/index.org.js"></script> -->
+<script type="text/javascript">
+    var page = {
+        ms: "inventory_ms",
+        op: "re_del_ms"
+    };
+
+    requirejs.config({
+        //模块根路径
+        baseUrl: './../../src/',
+        /*
+         *映射不在根路径下的
+         *路径是相对于baseUrl的
+         **/
+        paths: {
+            'underscore': '../deps/underscore/underscore-min',
+            'jquery': '../deps/jQuery/dist/jquery',
+            'backbone': '../deps/backbone/backbone'
+        },
+        // 为非cmd、amd模式的模块声明依赖
+        shim: {
+            'underscore': {
+                exports: '_'
+            },
+            'backbone': {
+                deps: ['underscore','jquery'],
+                exports: 'Backbone'
+            },
+        },
+        // urlArgs: "bust="+(+new Date)
+    });
+
+    require(['backbone','jquery'],function(){
+        require(['p/order-return-ms/index']);
+    });
+</script>
+</html>

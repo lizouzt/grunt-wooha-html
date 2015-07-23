@@ -1,0 +1,49 @@
+{
+  "name": "grunt-wooha-html",
+  "description": "Grunt HTML Builder - self fed dev craft with bower,grunt,require HTML build plugin.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/lizouzt/grunt-wooha-html",
+  "author": {
+    "name": "wooha",
+    "email": "tao.z.u@icloud.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:lizouzt/grunt-wooha-html.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lizouzt/grunt-wooha-html/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/lizouzt/grunt-wooha-html/blob/master/LICENSE-MIT"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "js-beautify": "^1.5.5",
+    "grunt": "~0.4.5"
+  },
+  "keywords": [
+    "gruntplugin",
+    "grunt",
+    "htmlbuild",
+    "html",
+    "build",
+    "htmlgen",
+    "generate",
+    "link"
+  ],
+  "peerDependencies": {
+    "grunt": "~0.4.5"
+  },
+  "keywords": [
+    "gruntplugin"
+  ]
+}
