@@ -50,18 +50,23 @@ module.exports = function (grunt) {
 
     function extraTransform(content, params, src) {
         /*
-        * change requirejs baseUrl
-        * */
+         * change requirejs baseUrl
+         * */
         content = content.replace(/baseUrl\:.+\/(src)\/["']/, function(a, b){
             return a.replace(b, 'build');
         });
 
         /*
-        * inject concat js
-        * */
+         * open concat js
+         * */
         var prePath = "./";
         var pathDeep = src.split('/').length - 1,
-            route = (src.match(/(.*\/|^)(.+\/.*)\.html/) || [])[2],
+        /*
+         * route = (src.match(/(.*\/|^)(.+\/.*)\.html/) || [])[2],
+         * used to
+         * */
+        // Just fit for one level p folder
+            route = (src.match(/(.*\/|^)(.+)\.html/) || [])[2],
             jsFile = params.main + (params.env == "dev" ? ".org.js" : ".js");
 
         !route && grunt.log.warn("Source html inject concat js failed. Path: " + src);
@@ -70,8 +75,8 @@ module.exports = function (grunt) {
         prePath += params.build + '/' + params.version + "/p/";
         var mainJsPath = path.join(prePath, route, jsFile);
 
-        content = content.replace(/<\/body>/, function(a){
-            return a + '<script src="'+mainJsPath+'"><\/script>';
+        content = content.replace(/<\/html>/, function(html){
+            return '<script src="'+mainJsPath+'"><\/script>' + html;
         });
 
         return content;
@@ -121,8 +126,8 @@ module.exports = function (grunt) {
 
         tags.forEach(function (tag) {
             /*
-            * do what u want.
-            * */
+             * do what u want.
+             * */
             var result = '';
 
             if ( /inject="yeah"/.test(tag) ) {
