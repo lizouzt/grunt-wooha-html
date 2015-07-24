@@ -48,7 +48,7 @@ module.exports = function (grunt) {
         regSrc = /(src|href)\=["']([^\s]+)["']/,
         isFileRegex = /\.(\w+){2,4}$/;
 
-    function extraTransform(content) {
+    function extraTransform(content, params, src) {
         /*
         * change requirejs baseUrl
         * */
@@ -57,10 +57,21 @@ module.exports = function (grunt) {
         });
 
         /*
-        * open concat js
+        * inject concat js
         * */
-        content = content.replace(/\<\!--\s*(\<script[^>]+\>\<\/script\>)\s*--\>/, function(a, b){
-            return b;
+        var prePath = "./";
+        var pathDeep = src.split('/').length - 1,
+            route = (src.match(/(.*\/|^)(.+\/.*)\.html/) || [])[2],
+            jsFile = params.main + (params.env == "dev" ? ".org.js" : ".js");
+
+        !route && grunt.log.warn("Source html inject concat js failed. Path: " + src);
+
+        for ( ; pathDeep > 0; pathDeep--) prePath += "../";
+        prePath += params.build + '/' + params.version + "/p/";
+        var mainJsPath = path.join(prePath, route, jsFile);
+
+        content = content.replace(/<\/body>/, function(a){
+            return a + '<script src="'+mainJsPath+'"><\/script>';
         });
 
         return content;
@@ -104,10 +115,9 @@ module.exports = function (grunt) {
         return tags;
     }
 
-    function transformContent(content, params, dest) {
+    function transformContent(content, params, src) {
         var tags = getBuildTags(content),
-            config = grunt.config(),
-            version = params.data.version;
+            version = params.version;
 
         tags.forEach(function (tag) {
             /*
@@ -130,7 +140,7 @@ module.exports = function (grunt) {
             result && (content = content.replace(tag, result));
         });
 
-        content = extraTransform(content);
+        content = extraTransform(content, params, src);
 
         if (params.beautify) {
             content = beautify.html(content, _.isObject(params.beautify) ? params.beautify : {});
@@ -141,32 +151,31 @@ module.exports = function (grunt) {
 
     grunt.registerMultiTask('wooha_html', "Grunt HTML Builder", function () {
         var params = this.options({
+            env: 'pro',
+            build: 'build',
+            version: '0.0.0',
+            build: "build",
+            main: "index",
             beautify: true,
-            data: {
-                version: '0.0.0'
-            },
-            prefix: '',
-            relative: true
+            processContent: function (src) { return src; }
         });
 
         this.files.forEach(function (file) {
-            var dest = file.dest || "",
-                destPath, content;
+            var isExpanded = file.orig.expand || false;
 
             file.src.forEach(function (src) {
-                if (params.replace) {
-                    destPath = src;
-                }
-                else if (isFileRegex.test(dest)) {
-                    destPath = dest;
-                }
-                else {
-                    destPath = path.join(dest, path.basename(src));
+                var srcPath = isExpanded ? src : path.join(file.cwd, src),
+                    destPath = isExpanded ? file.dest : path.join(file.dest, src);
+
+                if (!grunt.file.exists(srcPath)) {
+                    grunt.log.warn('Source file "' + src + '" not found.');
+                    return false;
                 }
 
-                content = transformContent(grunt.file.read(src), params, dest);
+                content = transformContent(grunt.file.read(srcPath), params, srcPath);
 
-                // write the contents to destination
+                content = params.processContent(content);
+
                 grunt.file.write(destPath, content);
                 grunt.log.ok("File " + destPath + " created !");
             });

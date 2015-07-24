@@ -1,18 +1,16 @@
 module.exports = function (grunt) {
     grunt.initConfig({
-        fixturesPath: "build",
-
-        htmlbuild: {
+        wooha_html: {
             dist: {
-                src: './test.html',
-                dest: './html/',
+                cwd: 'demo',
+                src: ['**/*.html', '!**/*.jst.html'],
+                dest: 'html',
                 options: {
-                    allowUnknownTags: true,
-                    relative: true,
-                    data: {
-                        version: "0.1.0",
-                        title: "test",
-                    },
+                    env: "dev",//["dev", "pro"]
+                    version: "0.1.0",
+                    build: "build",//grunt build folder, default is "build"
+                    main: "index",//main js file, default is index.js
+                    beautify: true
                 }
             }
         }
@@ -20,5 +18,5 @@ module.exports = function (grunt) {
 
     grunt.loadTasks('tasks');
 
-    grunt.registerTask('default', ['htmlbuild']);
+    grunt.registerTask('default', ['wooha_html']);
 };
