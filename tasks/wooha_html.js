@@ -34,6 +34,7 @@ module.exports = function (grunt) {
         URL = require('url'),
         path = require('path'),
         beautifier = require('js-beautify'),
+        minify = require('html-minifier').minify,
         beautify = {
             js: beautifier.js,
             css: beautifier.css,
@@ -80,6 +81,10 @@ module.exports = function (grunt) {
         });
 
         return content;
+    }
+
+    function minifyHTML(content, options) {
+        return minify(content, options);
     }
 
     function getBuildTags(content) {
@@ -149,6 +154,8 @@ module.exports = function (grunt) {
 
         if (params.beautify) {
             content = beautify.html(content, _.isObject(params.beautify) ? params.beautify : {});
+        } else if (params.minify) {
+            content = minifyHTML(content, params.minify);
         }
 
         return content;
@@ -161,9 +168,24 @@ module.exports = function (grunt) {
             version: '0.0.0',
             build: "build",
             main: "index",
-            beautify: true,
+            beautify: false,
+            minify: {},
             processContent: function (src) { return src; }
         });
+
+        !params.beautify && (params.minify = _.extend({
+            removeAttributeQuotes: true,
+            removeComments: true,
+            collapseWhitespace: true,
+            conservativeCollapse: true,
+            preserveLineBreaks: false,
+            removeEmptyAttributes: true,
+            removeIgnored: false,
+            keepClosingSlash: true,
+            minifyCSS: true,
+            minifyJS: true,
+            maxLineLength: 2028
+        }, params.minify));
 
         this.files.forEach(function (file) {
             var isExpanded = file.orig.expand || false;

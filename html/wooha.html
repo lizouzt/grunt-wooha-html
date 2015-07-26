@@ -1,57 +1,11 @@
-<!DOCTYPE HTML>
-<html>
-
-<head>
-    <meta charset="utf-8" />
-    <meta content="yes" name="apple-mobile-web-app-capable" />
-    <meta content="yes" name="apple-touch-fullscreen" />
-    <meta content="telephone=no,email=no" name="format-detection" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no" />
-    <title>test html</title>
-    <link rel="stylesheet" type="text/css" href="./../../build/0.1.0/p/order-return-ms/index.css">
-</head>
-
-<body>
-    <div id="j-content" class="content">
-
-    </div>
-</body>
-<script type="text/javascript" src="./../../deps/requirejs/require.js"></script>
-<script type="text/javascript">
-    var page = {
-        ms: "inventory_ms",
-        op: "re_del_ms"
-    };
-
-    requirejs.config({
-        //模块根路径
-        baseUrl: './../../build/',
-        /*
-         *映射不在根路径下的
-         *路径是相对于baseUrl的
-         **/
-        paths: {
-            'underscore': '../deps/underscore/underscore-min',
-            'jquery': '../deps/jQuery/dist/jquery',
-            'backbone': '../deps/backbone/backbone'
-        },
-        // 为非cmd、amd模式的模块声明依赖
-        shim: {
-            'underscore': {
-                exports: '_'
-            },
-            'backbone': {
-                deps: ['underscore', 'jquery'],
-                exports: 'Backbone'
-            },
-        },
-        // urlArgs: "bust="+(+new Date)
-    });
-
-    require(['backbone', 'jquery'], function() {
-        require(['p/order-return-ms/index']);
-    });
-</script>
-<script src="../build/0.1.0/p/wooha/index.org.js"></script>
-
-</html>
+<!DOCTYPE HTML> <html> <head> <meta charset="utf-8"/> <meta http-equiv=content-type content="text/html;charset=utf-8"/> <meta content=yes name="apple-mobile-web-app-capable"/> <meta content=yes name="apple-touch-fullscreen"/> <meta content="telephone=no,email=no" name="format-detection"/> <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"/> <title>BTEngine-免费的BT种子搜索神器、P2P种子搜索器、万能BT种子搜索下载神器、磁力链接搜索下载</title> <meta name=keywords content=bt种子搜索,bt种子搜索器,bt种子下载,p2p种子搜索器,p2p种子搜索神器,磁力链接,磁力搜索,万能种子搜索器,迅雷种子,种子搜索器,种子搜索神器,种子搜索神器手机版,种子搜索网站,种子下载,BT种子,bt种子下载器,bt搜索引擎,bt搜索器,bt搜索神器> <meta name=description content="BTEngine - 专注于从DHT网络抓取BT种子和磁力链接，目前索引了数千万BT种子元信息(metainfo)，是宇宙BT种子资源最丰富的BT种子搜索下载、磁力链接下载的专业网站,你可以在这里搜索和下载电影、剧集、音乐、图书、图片、综艺、软件、动漫、教程、游戏等资源，我这是一款BT种子搜索神器、P2P种子搜索神器、万能BT种子搜索下载神器、磁力链接搜索下载。本站本身不存储提供BT种子下载，仅提供从DHT网络抓取的磁力链接以及其他网站提供的下载链接。"> <link rel=stylesheet type=text/css href=../build/0.1.0/p/index/index.css> </head> <body> <div class=s-wp id=wall></div> <header id=J-header> <div class=h-logo>BT Engine</div> <div class="hr h-s"> <a href=javascript:void(0)> <span class=hrb></span>
+<span class=hrt><i class="b-i i-share2"></i></span> </a> </div> <div class="hr hsbtn hst" data-sharing=twitter> <a href=# target=_blank> <span class=hrb></span>
+<span class=hrt><i class="b-i i-twitter"></i></span> </a> </div> <div class="hr hsbtn hst" data-sharing=facebook> <a href=# target=_blank> <span class=hrb></span>
+<span class=hrt><i class="b-i i-facebook"></i></span> </a> </div> <div class="hr h-d"> <a href=/declare> <span class=hrb></span>
+<span class=hrt>声明</span> </a> </div> <div class="hr h-t"> <a href=/tutorial> <span class=hrb></span>
+<span class=hrt>教程</span> </a> </div> <div class="hr h-l"> <a href="/en/"> <span class=hrb></span>
+<span class=hrt>in English</span> </a> </div> <ul class=h-sl id=hsl> <li data-sharing=twitter class=hst> <span>Twitter</span> </li> <li data-sharing=facebook class=hst> <span>Facebook</span> </li> <li data-sharing=Google+ class=hst> <span>Google+
+</span> </li> <li data-sharing=weibo class=hst> <span>Weibo</span> </li> </ul> </header> <section class=s-form>  <form action=./search method=POST name=search> <div class=s-btn> <button type=submit>搜索种子</button> </div> <div class=s-kwd> <input type=search name=kwd-origin id=kwdo title=输入搜索词 maxlength=100 autocapitalize=off autocorrect=off autocomplete=off spellcheck=false>
+<input type=hidden name=kwd-query autocomplete=off> </div> </form> <div class=s-suggest> <ul class=ss-l> <li>好的</li> <li>好的是不是</li> <li>好的就这世界</li> </ul> </div> </section> <footer id=J-footer> <ul> <li> <span>&copy; 2015 BTEngine</span>
+<em>|</em> <div class=fh id=J-fh> <i class="b-i i-paragraph-left"></i>
+<i class="b-i i-paragraph-right"></i> </div> </li> <li><a href="Mailto:lizouzt@gmail.com?Subject=BTEgine FeedBack"><span>Feedback</span><em>|</em></a></li> <li><a href=/about target=_blank><span>About</span><em>|</em></a></li> <li><a href=/about target=_blank><span>Privacy</span><em>|</em></a></li> <li><a href=/about target=_blank><span>Legal</span><em>|</em></a></li> <li><a href=/about target=_blank><span>FAQ</span></a></li> </ul> </footer> </body> <script type=text/javascript src=../deps/requirejs/require.js></script><script type=text/javascript>requirejs.config({baseUrl:"../build/",paths:{underscore:"../deps/underscore/underscore-min",jquery:"../deps/jquery/dist/jquery.min",backbone:"../deps/backbone/backbone-min"},shim:{underscore:{exports:"_"},backbone:{deps:["underscore","jquery"],exports:"Backbone"}}}),require(["backbone","jquery"],function(){require(["p/index/main"])});</script><script src=../build/0.1.0/p/wooha/index.org.js></script></html>

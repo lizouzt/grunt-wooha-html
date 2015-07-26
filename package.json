@@ -30,7 +30,8 @@
     "grunt": "^0.4.5"
   },
   "dependencies": {
-    "js-beautify": "^1.5.5"
+    "js-beautify": "^1.5.5",
+    "html-minifier": "^0.7.0"
   },
   "keywords": [
     "gruntplugin"
