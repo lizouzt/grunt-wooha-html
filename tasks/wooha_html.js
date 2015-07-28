@@ -83,6 +83,28 @@ module.exports = function (grunt) {
         return content;
     }
 
+    function injectSource(tag, htmlPath) {
+        var isScript = /<\/script>/.test(tag);
+        var flag = isScript ? 'src' : 'href';
+        var src = (tag.match(RegExp(' '+flag+'=[\"\'](.+)[\"\']')) || [])[1], ret = tag;
+        if (!!src) {
+            if (!path.isAbsolute(src) && src.indexOf('//') == -1)
+                src = src.split('../').slice(htmlPath.match(/[a-zA-Z_]+\//g).length - 1).join('')
+
+            if (!grunt.file.exists(src)) {
+                grunt.log.warn('Source file "' + src + '" not found.');
+                return false;
+            }
+
+            var content = grunt.file.read(src);
+            ret = isScript ? tag.replace(/\ssrc=["'].+["']/, '').replace("inject", "").replace(/><\/script>/, function(){
+                return '>\r\n' + content + '</script>';
+            }) : '\r\n<style>' + content + '</style>'
+        }
+
+        return ret;
+    }
+
     function minifyHTML(content, options) {
         return minify(content, options);
     }
@@ -135,15 +157,15 @@ module.exports = function (grunt) {
              * */
             var result = '';
 
-            if ( /inject="yeah"/.test(tag) ) {
-                result = tag;
+            if ( /\sinject\s/.test(tag) ) {
+                result = injectSource(tag, src);
             } else {
-                var src = (tag.match(regSrc) || [])[2];
-                if (src && src.indexOf('http') == -1) {
-                    nsrc = src.replace(/(\/|^)build\//, function(ret){
+                var csrc = (tag.match(regSrc) || [])[2];
+                if (csrc && csrc.indexOf('http') == -1) {
+                    nsrc = csrc.replace(/(\/|^)build\//, function(ret){
                         return ret + version + '/'
                     });
-                    result = tag.replace(src, nsrc);
+                    result = tag.replace(csrc, nsrc);
                 }
             }
 

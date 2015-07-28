@@ -1,11 +1,11 @@
 # grunt-wooha-html
 
 > self fed dev craft with bower,grunt,require HTML build plugin.
+> 
+> this plugin is used for version control,html compress,js\css inject.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
-
-If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
 
 ```shell
 npm install grunt-wooha-html --save-dev
@@ -22,65 +22,82 @@ grunt.loadNpmTasks('grunt-wooha-html');
 ### Overview
 In your project's Gruntfile, add a section named `wooha_html` to the data object passed into `grunt.initConfig()`.
 
-```js
-grunt.initConfig({
-  wooha_html: {
-    options: {
-      // Task-specific options go here.
-    },
-    your_target: {
-      // Target-specific file lists and/or options go here.
-    },
-  },
-});
+```
+    grunt.initConfig({
+    	wooha_html: {
+	      options: {
+	      
+	      }
+  		}
+  	});
 ```
 
-### Options
+### inject script or stylesheet
+If you want inject some js or css file in html, You just need add a "inject" attribute on script tag of html.
 
-#### options.separator
-Type: `String`
-Default value: `',  '`
-
-A string value that is used to do something with whatever.
-
-#### options.punctuation
-Type: `String`
-Default value: `'.'`
-
-A string value that is used to do something else with whatever else.
-
-### Usage Examples
-
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
-
-```js
-grunt.initConfig({
-  wooha_html: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
+```
+	<script src="***" inject></script>
+	<link rel="stylesheet" type="text/css" href="***" inject>
 ```
 
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+### Options Quick Reference
 
-```js
-grunt.initConfig({
-  wooha_html: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
+| Option                         | Description     | Default |
+|--------------------------------|-----------------|---------|
+|env| which environment build for | 'pro' |
+| build |grunt build folder| 'build' |
+|version|version code | '0.0.1' |
+|main|page main js file | index.js |
+|beautify|beautify html file| false|
+|minify|html-minifier options.The minify option is useless when option beautify is true.More information see[html-minifier](https://www.npmjs.com/package/html-minifier)| object|
+
+### Usage
+
 ```
+
+	grunt.initConfig({
+
+	wooha_html:{
+
+      dist:{
+          
+          cwd: 'demo',
+          
+          src: ["**/*.html", "!**/*.jst.html"],
+          
+          dest: "html",
+          
+          options: {
+              env: "dev",
+              version: "0.1.0",
+              build: "build",
+              main: "index",
+              minify: {              
+                  removeAttributeQuotes: true, //default true
+                  removeComments: true, //default true
+                  collapseWhitespace: true, //default true
+                  conservativeCollapse: true, //default true
+                  preserveLineBreaks: false, //default false
+                  removeEmptyAttributes: true, //default true
+                  removeIgnored: true, //default true
+                  minifyCSS: true, //default true
+                  minifyJS: true, //default true
+                  maxLineLength: 2048 //default 2048
+              },
+              beautify: false
+          }
+      }
+    }});
+```
+### Project orga
+
+- root
+	- build -- build code folder
+    - html -- built html folder
+    - demo -- dev html folder
+    - src
+        - c -- lib folder
+        - p -- page folder
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
