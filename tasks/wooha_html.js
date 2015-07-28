@@ -157,7 +157,7 @@ module.exports = function (grunt) {
              * */
             var result = '';
 
-            if ( /\sinject\s/.test(tag) ) {
+            if ( /\sinject/.test(tag) ) {
                 result = injectSource(tag, src);
             } else {
                 var csrc = (tag.match(regSrc) || [])[2];
