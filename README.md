@@ -46,7 +46,7 @@ If you want inject some js or css file in html, You just need add a "inject" att
 |--------------------------------|-----------------|---------|
 |env| which environment build for | 'pro' |
 | build |grunt build folder| 'build' |
-|version|version code | '0.0.1' |
+|version|version code | '' with out version control |
 |main|page main js file | index.js |
 |beautify|beautify html file| false|
 |minify|html-minifier options.The minify option is useless when option beautify is true.More information see[html-minifier](https://www.npmjs.com/package/html-minifier)| object|
