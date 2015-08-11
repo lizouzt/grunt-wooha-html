@@ -54,7 +54,7 @@ module.exports = function (grunt) {
          * change requirejs baseUrl
          * */
         content = content.replace(/baseUrl\:.+\/(src)\/["']/, function(a, b){
-            return a.replace(b, 'build');
+            return a.replace(b, 'build/'+params.version);
         });
 
         /*
