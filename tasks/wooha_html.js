@@ -54,8 +54,11 @@ module.exports = function (grunt) {
          * change requirejs baseUrl
          * */
         content = content.replace(/baseUrl\:.+\/(src)\/["']/, function(a, b){
-            return a.replace(b, 'build/'+params.version);
+            return a.replace(b, params.version ? 'build/'+params.version : 'build');
         });
+        params.version && (content = content.replace(/\.\.\/deps\//g, function(a){
+            return '../../deps/'
+        }));
 
         /*
          * open concat js
@@ -187,7 +190,7 @@ module.exports = function (grunt) {
         var params = this.options({
             env: 'pro',
             build: 'build',
-            version: '0.0.0',
+            version: '',
             build: "build",
             main: "index",
             beautify: false,
