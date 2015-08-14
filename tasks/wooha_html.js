@@ -56,8 +56,15 @@ module.exports = function (grunt) {
         content = content.replace(/baseUrl\:.+\/(src)\/["']/, function(a, b){
             return a.replace(b, params.version ? 'build/'+params.version : 'build');
         });
-        params.version && (content = content.replace(/\.\.\/deps\//g, function(a){
-            return '../../deps/'
+
+        params.version && (content = content.replace(/requirejs.config\(\{([\S\W]+)\}\)\;/, function(a, b){
+            var endk = a.search(/\}\)/);
+            var part = [a.slice(0, endk), a.slice(endk)];
+
+            var change = part[0].replace(/\.\.\/deps\//g, function(a){
+                return '../../deps/'
+            });
+            return change + part[1]
         }));
 
         /*
