@@ -7,9 +7,10 @@ module.exports = function (grunt) {
                 dest: 'html',
                 options: {
                     env: "dev",//["dev", "pro"]
-                    version: "0.1.0",
+                    version: "0.1.0",//version, default is null
                     build: "build",//grunt build folder, default is "build"
-                    main: "index",//main js file, default is index.js
+                    src: "src",//grunt src folder, default is "src"
+                    main: "index",//main js file, default is "index.js"
                     minify: {
                         /*
                         * html-minifier options
