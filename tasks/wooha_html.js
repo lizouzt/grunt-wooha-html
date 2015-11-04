@@ -184,7 +184,7 @@ module.exports = function (grunt) {
             result && (content = content.replace(tag, result));
         });
 
-        content = extraTransform(content, params, src);
+        params.isCMD && (content = extraTransform(content, params, src));
 
         if (params.beautify) {
             content = beautify.html(content, _.isObject(params.beautify) ? params.beautify : {});
@@ -197,6 +197,7 @@ module.exports = function (grunt) {
 
     grunt.registerMultiTask('wooha_html', "Grunt HTML Builder", function () {
         var params = this.options({
+            isCMD: true,
             env: 'pro',
             build: 'build',
             version: '',
