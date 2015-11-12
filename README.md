@@ -44,6 +44,7 @@ If you want inject some js or css file in html, You just need add a "inject" att
 
 | Option                         | Description     | Default |
 |--------------------------------|-----------------|---------|
+|isCMD| is this project use CMD| true |
 |env| which environment build for | 'pro' |
 | build |grunt build folder| 'build' |
 |version|version code | '' with out version control |

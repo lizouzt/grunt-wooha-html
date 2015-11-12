@@ -83,10 +83,10 @@ module.exports = function (grunt) {
         !route && grunt.log.warn("Source html inject concat js failed. Path: " + src);
 
         for ( ; pathDeep > 0; pathDeep--) prePath += "../";
-        
+
         var basePath = prePath + params.build + '/' + params.version + "/p/";
         var buildJsPath = path.join(basePath, route, jsFile);
-        var srcJsPath = path.join(prePath, params.src, 'p', route, jsFile);
+        var srcJsPath = path.join(prePath, params.src, 'p', route, params.main + '.js');
 
         content = RegExp(srcJsPath).test(content) ? content.replace(srcJsPath, buildJsPath) : content.replace(/<\/html>/, function(html){
             return '<script src="'+buildJsPath+'"><\/script>' + html;
