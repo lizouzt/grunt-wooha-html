@@ -72,12 +72,11 @@ module.exports = function (grunt) {
          * */
         var prePath = "./";
         var pathDeep = src.split('/').length - 1,
-        /*
-         * route = (src.match(/(.*\/|^)(.+\/.*)\.html/) || [])[2],
-         * used to
-         * */
-        // Just fit for one level p folder
-            route = (src.match(/(.*\/|^)(.+)\.html/) || [])[2],
+            // Just fit for one level p folder
+            /*
+            *   support windows os
+            **/
+            route = (src.match(/(.*[\\\/]|^)(.+)\.html/) || [])[2],
             jsFile = params.main + (params.env == "dev" ? ".org.js" : ".js");
 
         !route && grunt.log.warn("Source html inject concat js failed. Path: " + src);
@@ -101,7 +100,10 @@ module.exports = function (grunt) {
         var src = (tag.match(RegExp(' '+flag+'=[\"\'](.+)[\"\']')) || [])[1], ret = tag;
         if (!!src) {
             if (!path.isAbsolute(src) && src.indexOf('//') == -1)
-                src = src.split('../').slice(htmlPath.match(/[a-zA-Z_]+\//g).length - 1).join('')
+                /*
+                *   support windows os
+                **/
+                src = src.split('../').slice(htmlPath.match(/[a-zA-Z_]+[\/\\]/g).length - 1).join('')
 
             if (!grunt.file.exists(src)) {
                 grunt.log.warn('Source file "' + src + '" not found.');
