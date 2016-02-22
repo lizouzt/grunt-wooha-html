@@ -71,7 +71,7 @@ module.exports = function (grunt) {
          * open concat js
          * */
         var prePath = "./";
-        var pathDeep = src.split('/').length - 1,
+        var pathDeep = src.split(/[\/\\]/).length - 1,
             // Just fit for one level p folder
             /*
             *   support windows os
