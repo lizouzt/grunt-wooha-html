@@ -70,7 +70,7 @@ module.exports = function (grunt) {
         /*
          * open concat js
          * */
-        var prePath = "./";
+        var prePath = "";
         var pathDeep = src.split(/[\/\\]/).length - 1,
             // Just fit for one level p folder
             /*
@@ -84,8 +84,8 @@ module.exports = function (grunt) {
         for ( ; pathDeep > 0; pathDeep--) prePath += "../";
 
         var basePath = prePath + params.build + '/' + params.version + "/p/";
-        var buildJsPath = path.join(basePath, route, jsFile);
-        var srcJsPath = path.join(prePath, params.src, 'p', route, params.main + '.js');
+        var buildJsPath = basePath + route + '/'+  jsFile;
+        var srcJsPath = prePath + (params.exportMode ? params.build : params.src) + '/p/' + route + '/'+ params.main + (params.exportMode ? '.org.js' : '.js');
 
         content = RegExp(srcJsPath).test(content) ? content.replace(srcJsPath, buildJsPath) : content.replace(/<\/html>/, function(html){
             return '<script src="'+buildJsPath+'"><\/script>' + html;
@@ -186,7 +186,7 @@ module.exports = function (grunt) {
             result && (content = content.replace(tag, result));
         });
 
-        params.isCMD && (content = extraTransform(content, params, src));
+        content = extraTransform(content, params, src);
 
         if (params.beautify) {
             content = beautify.html(content, _.isObject(params.beautify) ? params.beautify : {});
@@ -199,7 +199,7 @@ module.exports = function (grunt) {
 
     grunt.registerMultiTask('wooha_html', "Grunt HTML Builder", function () {
         var params = this.options({
-            isCMD: true,
+            exportMode: false,
             env: 'pro',
             build: 'build',
             version: '',

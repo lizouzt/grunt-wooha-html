@@ -6,7 +6,7 @@ module.exports = function (grunt) {
                 src: ['**/*.html', '!**/*.jst.html'],
                 dest: 'html',
                 options: {
-                    isCMD: true, //default is true. It will not rewrite page js whith Project orga if false. use for Browserify
+                    exportMode: true,  //default false. When false it rewrite page js src with cmd mode. When true it rewrite page js src with exports mode.
                     env: "dev",//["dev", "pro"]
                     version: "0.1.0",//version, default is null
                     build: "build",//grunt build folder, default is "build"

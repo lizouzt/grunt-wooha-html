@@ -4,6 +4,9 @@
 > 
 > this plugin is used for version control,html compress,js\css inject.
 
+## Update log
+* Version 2.0.0 add module.exports support with browserify
+
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
 
@@ -44,7 +47,7 @@ If you want inject some js or css file in html, You just need add a "inject" att
 
 | Option                         | Description     | Default |
 |--------------------------------|-----------------|---------|
-|isCMD| is this project use CMD| true |
+|exportMode| is this project use module.exports or CMD| false |
 |env| which environment build for | 'pro' |
 | build |grunt build folder| 'build' |
 |version|version code | '' with out version control |
@@ -69,9 +72,11 @@ If you want inject some js or css file in html, You just need add a "inject" att
           dest: "html",
           
           options: {
-              env: "dev",
+              exportMode: true,
+              env: "<%= dev %>",
               version: "0.1.0",
               build: "build",
+              src: "src",
               main: "index",
               minify: {              
                   removeAttributeQuotes: true, //default true
