@@ -1,7 +1,7 @@
 {
   "name": "grunt-wooha-html",
   "description": "Grunt HTML Builder - self fed dev craft with bower,grunt,require HTML build plugin.",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "homepage": "https://github.com/lizouzt/grunt-wooha-html",
   "author": {
     "name": "wooha",

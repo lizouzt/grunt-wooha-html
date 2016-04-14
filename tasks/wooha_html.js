@@ -260,7 +260,7 @@ module.exports = function (grunt) {
             var isExpanded = file.orig.expand || false;
 
             file.src.forEach(function (src) {
-                var srcPath = isExpanded ? src : path.join(file.cwd, src),
+                var srcPath = isExpanded ? src : path.join(file.cwd, src).replace(/\\/g, '/'),
                     destPath = isExpanded ? file.dest : path.join(file.dest, src);
 
                 if (!grunt.file.exists(srcPath)) {
