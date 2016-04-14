@@ -47,7 +47,7 @@ If you want inject some js or css file in html, You just need add a "inject" att
 
 | Option                         | Description     | Default |
 |--------------------------------|-----------------|---------|
-|exportMode| is this project use module.exports or CMD| false |
+|exportMode| is this project use 1:module.exports or 2:CMD or 3:react| 1 |
 |env| which environment build for | 'pro' |
 | build |grunt build folder| 'build' |
 |version|version code | '' with out version control |

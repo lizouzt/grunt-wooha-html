@@ -51,21 +51,9 @@ module.exports = function (grunt) {
 
     function extraTransform(content, params, src) {
         /*
-         * change requirejs baseUrl
-         * */
-        content = content.replace(/baseUrl\:.+\/(src)\/["']/, function(a, b){
-            return a.replace(b, params.version ? 'build/'+params.version : 'build');
-        });
-
-        params.version && (content = content.replace(/requirejs.config\(\{([\S\W]+)\}\)\;/, function(a, b){
-            var endk = a.search(/\}\)/);
-            var part = [a.slice(0, endk), a.slice(endk)];
-
-            var change = part[0].replace(/\.\.\/deps\//g, function(a){
-                return '../../deps/'
-            });
-            return change + part[1]
-        }));
+        *
+        * */
+        var mainJS = params.main || (src.match(/\/(.+)\.html/) || [])[1] || 'index';
 
         /*
          * open concat js
@@ -77,15 +65,53 @@ module.exports = function (grunt) {
             *   support windows os
             **/
             route = (src.match(/(.*[\\\/]|^)(.+)\.html/) || [])[2],
-            jsFile = params.main + (params.env == "dev" ? ".org.js" : ".js");
+            jsFile = mainJS + (params.env == "dev" ? ".org.js" : ".js");
 
         !route && grunt.log.warn("Source html inject concat js failed. Path: " + src);
 
         for ( ; pathDeep > 0; pathDeep--) prePath += "../";
 
-        var basePath = prePath + params.build + '/' + params.version + "/p/";
-        var buildJsPath = basePath + route + '/'+  jsFile;
-        var srcJsPath = prePath + (params.exportMode ? params.build : params.src) + '/p/' + route + '/'+ params.main + (params.exportMode ? '.org.js' : '.js');
+        var basePath = '', buildJsPath = '', srcJsPath = '';
+
+        if (params.exportMode == true || params.exportMode == 1) {
+            /*
+            * browserify module.exports mode
+            * */
+            basePath = prePath + params.build + '/' + params.version + "/p/";
+            buildJsPath = basePath + route + '/'+  jsFile;
+            srcJsPath = prePath + params.build + '/p/' + route + '/'+ mainJS + '.org.js';
+        } else if (params.exportMode == false || params.exportMode == 2) {
+            /*
+            * cmd require.js mode
+            * */
+            /*
+             * change requirejs baseUrl
+             * */
+            content = content.replace(/baseUrl\:.+\/(src)\/["']/, function(a, b){
+                return a.replace(b, params.version ? 'build/'+params.version : 'build');
+            });
+
+            params.version && (content = content.replace(/requirejs.config\(\{([\S\W]+)\}\)\;/, function(a, b){
+                var endk = a.search(/\}\)/);
+                var part = [a.slice(0, endk), a.slice(endk)];
+
+                var change = part[0].replace(/\.\.\/deps\//g, function(a){
+                    return '../../deps/'
+                });
+                return change + part[1]
+            }));
+
+            basePath = prePath + params.build + '/' + params.version + "/p/";
+            buildJsPath = basePath + route + '/'+  jsFile;
+            srcJsPath = prePath + params.src + '/p/' + route + '/'+ mainJS + '.js';
+        } else if (params.exportMode == 3) {
+            /*
+            * browserify react mode
+            * */
+            basePath = prePath + params.build + '/' + params.version;
+            buildJsPath = basePath + '/js/'+  jsFile;
+            srcJsPath = prePath + params.build + '/js/' + jsFile;
+        }
 
         content = RegExp(srcJsPath).test(content) ? content.replace(srcJsPath, buildJsPath) : content.replace(/<\/html>/, function(html){
             return '<script src="'+buildJsPath+'"><\/script>' + html;
@@ -167,13 +193,16 @@ module.exports = function (grunt) {
 
         tags.forEach(function (tag) {
             /*
-             * do what u want.
-             * */
+            * do what u want.
+            * */
             var result = '';
 
             if ( /\sinject/.test(tag) ) {
                 result = injectSource(tag, src);
-            } else {
+            } else if (/\<link/.test(tag)) {
+                /*
+                * css
+                * */
                 var csrc = (tag.match(regSrc) || [])[2];
                 if (csrc && csrc.indexOf('http') == -1) {
                     nsrc = csrc.replace(/(\/|^)build\//, function(ret){
@@ -185,7 +214,9 @@ module.exports = function (grunt) {
 
             result && (content = content.replace(tag, result));
         });
-
+        /*
+        * js
+        * */
         content = extraTransform(content, params, src);
 
         if (params.beautify) {
@@ -199,12 +230,13 @@ module.exports = function (grunt) {
 
     grunt.registerMultiTask('wooha_html', "Grunt HTML Builder", function () {
         var params = this.options({
-            exportMode: false,
+            exportMode: 1,
             env: 'pro',
             build: 'build',
             version: '',
             build: "build",
-            main: "index",
+            src: "",
+            main: "",
             beautify: false,
             minify: {},
             processContent: function (src) { return src; }
