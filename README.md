@@ -5,7 +5,7 @@
 > this plugin is used for version control,html compress,js\css inject.
 
 ## Update log
-* Version 2.0.0 add module.exports support with browserify
+* Version 2.0.2 add module.exports support with browserify
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
