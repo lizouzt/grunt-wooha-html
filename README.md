@@ -56,45 +56,87 @@ If you want inject some js or css file in html, You just need add a "inject" att
 |minify|html-minifier options.The minify option is useless when option beautify is true.More information see[html-minifier](https://www.npmjs.com/package/html-minifier)| object|
 
 ### Usage
-
+CommonJS mode
 ```
-
-	grunt.initConfig({
-
-	wooha_html:{
-
-      dist:{
-          
-          cwd: 'demo',
-          
-          src: ["**/*.html", "!**/*.jst.html"],
-          
-          dest: "html",
-          
-          options: {
-              exportMode: true,
-              env: "<%= dev %>",
-              version: "0.1.0",
-              build: "build",
-              src: "src",
-              main: "index",
-              minify: {              
-                  removeAttributeQuotes: true, //default true
-                  removeComments: true, //default true
-                  collapseWhitespace: true, //default true
-                  conservativeCollapse: true, //default true
-                  preserveLineBreaks: false, //default false
-                  removeEmptyAttributes: true, //default true
-                  removeIgnored: true, //default true
-                  minifyCSS: true, //default true
-                  minifyJS: true, //default true
-                  maxLineLength: 2048 //default 2048
-              },
-              beautify: false
-          }
+  wooha_html: {
+      dist: {
+        cwd: './demo/',
+        src: ['**/*.html', '!**/*.jst.html'],
+        dest: './html/',
+        options: {
+          version: '<%= version %>',
+          env: '<%= env %>',
+          build: "<%= buildBase %>",
+          src: "<%= srcBase %>",
+          main: "index",
+          exportMode: 2,
+          minify: {
+              preserveLineBreaks: true,
+              minifyCSS: true,
+              minifyJS: true,
+              maxLineLength: 1024
+          },
+          beautify: false
+        }
       }
-    }});
+  }
 ```
+
+Browserify module.exports mode
+```
+    wooha_html: {
+      dist: {
+        cwd: './demo/',
+        src: ['**/*.html', '!**/*.jst.html'],
+        dest: './html/',
+        options: {
+          exportMode: 1,
+          version: '<%= version %>',
+          minify: {
+              preserveLineBreaks: true,
+              minifyCSS: true,
+              minifyJS: true,
+              maxLineLength: 1024
+          },
+          processContent: function (html) {
+            /*
+            * 统计代码注入
+            * */
+            return html;
+          }
+        }
+      }
+    }
+```
+
+React web mode
+```
+    wooha_html: {
+      dist: {
+        cwd: './demo/',
+        src: ['**/*.html', '!**/*.jst.html', "!ueditor/**/*.html"],
+        dest: './html/',
+        options: {
+          version: '<%= version %>',
+          exportMode: 3,
+          minify: {
+              preserveLineBreaks: true,
+              minifyCSS: true,
+              minifyJS: true,
+              maxLineLength: 1024
+          },
+          beautify: true,
+          processContent: function (html) {
+            /*
+            * 统计代码注入
+            * */
+            return html;
+          }
+        }
+      }
+    }
+```
+
 ### Project orga
 
 - root
