@@ -77,7 +77,7 @@ module.exports = function (grunt) {
             /*
             * browserify module.exports mode
             * */
-            basePath = prePath + params.build + '/' + params.version + "/p/";
+            basePath = path.join(prePath, params.build, params.version, "/p/");
             buildJsPath = basePath + route + '/'+  jsFile;
             srcJsPath = prePath + params.build + '/p/' + route + '/'+ mainJS + '.org.js';
         } else if (params.exportMode == false || params.exportMode == 2) {
@@ -101,14 +101,14 @@ module.exports = function (grunt) {
                 return change + part[1]
             }));
 
-            basePath = prePath + params.build + '/' + params.version + "/p/";
+            basePath = path.join(prePath, params.build, params.version, "/p/");
             buildJsPath = basePath + route + '/'+  jsFile;
             srcJsPath = prePath + params.src + '/p/' + route + '/'+ mainJS + '.js';
         } else if (params.exportMode == 3) {
             /*
             * browserify react mode
             * */
-            basePath = prePath + params.build + '/' + params.version;
+            basePath = path.join(prePath, params.build, params.version);
             buildJsPath = basePath + '/js/'+  jsFile;
             srcJsPath = prePath + params.build + '/js/' + jsFile;
         }
@@ -206,7 +206,7 @@ module.exports = function (grunt) {
                 var csrc = (tag.match(regSrc) || [])[2];
                 if (csrc && csrc.indexOf('http') == -1) {
                     nsrc = csrc.replace(/(\/|^)build\//, function(ret){
-                        return ret + version + '/'
+                        return path.join(ret,version,'/');
                     });
                     result = tag.replace(csrc, nsrc);
                 }
